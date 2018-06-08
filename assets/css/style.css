@@ -1,0 +1,61 @@
+/* Whole page*/
+body {
+    margin: auto;
+}
+
+/* Text in table row in head*/
+#text {
+    font-weight: bolder;
+}
+
+/* Used to position jumbotron, table, and form*/
+#fullForm{
+    position: relative;
+    margin: 170px;
+    bottom: 150px;
+}
+
+
+.jumbotron {
+    text-align: center;
+    background-color: teal;
+    color: white
+}
+
+.card-header {
+    background-color: teal;
+    color: white;
+}
+
+/* Controls margins for table and form*/
+.wrapper {
+    margin-top: 20px;
+}
+
+/* Text forms on Add Train form*/
+.form-control {
+    position: relative;
+    width: 940px;
+    left: 18px;
+}
+
+/* Labels above inputs*/
+label {
+    position: relative;
+    left: 18px;
+}
+
+/* Cards that hold table and form*/
+.card {
+    width: 980px;
+    border-width: 2px;
+    border-color:teal;
+    
+}
+
+/* Submit button */
+#btn {
+    position: relative;
+    bottom: 10px;
+    left: 18px;
+}
