@@ -17,7 +17,7 @@ $(document).ready(function () {
     // Initial values
     var trainName = "";
     var destination = "";
-    var trainTime = 0;
+    var trainTime = "";
     var frequency = 0;
 
     // Button to collect user data
@@ -25,10 +25,10 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Grabs user input
-        var trainName = $("#trainName").val().trim();
-        var destination = $("#destination").val().trim();
-        var trainTime = moment($("#trainTime").val().trim(), "HH:mm").format("LT");
-        var frequency = $("#frequency").val().trim();
+        trainName = $("#trainName").val().trim();
+        destination = $("#destination").val().trim();
+        trainTime = moment($("#trainTime").val().trim(), "HH:mm").format("LT");
+        frequency = $("#frequency").val().trim();
 
 
         // Creates database object for holding train data
@@ -39,19 +39,65 @@ $(document).ready(function () {
             frequency: frequency
         };
 
-        console.log(newTrain.trainName);
-        console.log(newTrain.destination);
-        console.log(newTrain.trainTime);
-        console.log(newTrain.frequency);
 
         database.ref().push(newTrain);
 
+        // Clears all of the text-boxes
+        $("#trainName").val("");
+        $("#destination").val("");
+        $("#trainTime").val("");
+        $("#frequency").val("");
+
+    });
+
+    // Listens for data being added to database...
+    database.ref().on("child_added", function (snapshot) {
+        var sv = snapshot.val();
+
+        console.log(sv.trainName);
+        console.log(sv.destination);
+        console.log(sv.trainTime);
+        console.log(sv.frequency);
 
 
-    })
+        // Takes frequency from database and stores it...
+        var tFrequency = sv.frequency;
 
-    /*$("#trainTable > tbody").append("<tr><td>" + empName + "</td><td>" + empRole + "</td><td>" +
-        empStartPretty + "</td><td>" + empMonths + "</td><td>" + empRate + "</td><td>" + empBilled + "</td></tr>");*/
+        // Takes trainTime from database and stores it...
+        var firstTime = sv.trainTime;
+
+        // First Time (pushed back 1 year to make sure it comes before current time)
+        var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+        console.log(firstTimeConverted);
+
+        // Current Time
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+
+        // Time apart (remainder)
+        var tRemainder = diffTime % tFrequency;
+        console.log(tRemainder);
+
+        // Minute Until Train
+        var tMinutesTillTrain = tFrequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+        // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+        $("#trainTable > tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td></tr>");
+
+
+
+
+    });
+
+
 
 
 
