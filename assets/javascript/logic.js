@@ -92,10 +92,16 @@ $(document).ready(function () {
 
         $("#trainTable > tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td></tr>");
 
+    }, function(errorObject) {
+        console.log(("Errors handled: " + errorObject.code));
 
 
-
+        
     });
+
+
+
+   
 
 
 
