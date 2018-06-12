@@ -88,20 +88,22 @@ $(document).ready(function () {
 
         // Next Train
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
-        $("#trainTable > tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td></tr>");
+        // Changes format of nextTrain to hh:mm A to be displayed on table
+        var trainTime = moment(nextTrain).format("hh:mm A");
 
-    }, function(errorObject) {
+        $("#trainTable").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + trainTime + "</td><td>" + tMinutesTillTrain + "</td></tr>");
+
+    }, function (errorObject) {
         console.log(("Errors handled: " + errorObject.code));
 
 
-        
+
     });
 
 
 
-   
+
 
 
 
